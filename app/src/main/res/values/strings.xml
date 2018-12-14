@@ -1,3 +1,10 @@
 <resources>
-    <string name="app_name">ZhiHu</string>
+    <string name="app_name">知乎</string>
+    <string name="btn_login">登录</string>
+    <string name="btn_signUp">注册</string>
+    <string name="btn_cancel">取消</string>
+    <string name="btn_help">帮助与支持</string>
+    <string name="input_phone">电话号码</string>
+    <string name="social_login">社交账号登录</string>
+    <string name="verification_code">获取验证码</string>
 </resources>
