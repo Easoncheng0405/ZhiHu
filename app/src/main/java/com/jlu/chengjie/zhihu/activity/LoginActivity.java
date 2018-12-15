@@ -16,6 +16,7 @@
 
 package com.jlu.chengjie.zhihu.activity;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputType;
@@ -25,15 +26,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import butterknife.BindView;
-import es.dmoral.toasty.Toasty;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import es.dmoral.toasty.Toasty;
 
 import com.jlu.chengjie.zhihu.R;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private boolean pwdLogin = false;
+    private boolean isPwdLogin = false;
 
     @BindView(R.id.phone_number)
     EditText phone;
@@ -54,19 +55,36 @@ public class LoginActivity extends AppCompatActivity {
         ButterKnife.bind(this);
     }
 
+    /**
+     * client accept two login types: password or mobile phone verification code
+     * <p>
+     * password: client send phone number and password to the server to login,
+     * the server will return login result
+     * <p>
+     * verification code: client request server sent a verification code to the phone,
+     * at the same time the server will return sent result and verification detail
+     *
+     * @see #switchLoginType()
+     * @see #isPwdLogin
+     */
     @OnClick(R.id.login)
     void login() {
-        if (pwdLogin) {
-            Toasty.error(this, "密码错误!", Toast.LENGTH_LONG, true).show();
+        if (isPwdLogin) {
+            Toasty.error(this, R.string.pwd_wrong, Toast.LENGTH_LONG, true).show();
         } else {
             Toasty.success(this, "您的验证码是: 123456 ", Toast.LENGTH_LONG, true).show();
         }
+
+        startActivity(new Intent(this, MainActivity.class));
+        //this activity will not be used again, finish it.
+        finish();
     }
+
 
     @OnClick(R.id.login_type)
     void switchLoginType() {
-        pwdLogin = !pwdLogin;
-        if (pwdLogin) {
+        isPwdLogin = !isPwdLogin;
+        if (isPwdLogin) {
             code.setHint(R.string.input_pwd);
             login.setText(R.string.btn_login);
             loginType.setText(R.string.fast_login);

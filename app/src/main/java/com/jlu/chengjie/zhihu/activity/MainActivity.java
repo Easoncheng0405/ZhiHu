@@ -16,10 +16,25 @@
 
 package com.jlu.chengjie.zhihu.activity;
 
+import android.content.Context;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import butterknife.BindView;
 import butterknife.ButterKnife;
+
 import com.jlu.chengjie.zhihu.R;
+import com.jlu.chengjie.zhihu.adapter.TabAdapter;
+import com.jlu.chengjie.zhihu.fragment.HomeFragment;
+import com.jlu.chengjie.zhihu.fragment.MyFragment;
+import com.jlu.chengjie.zhihu.fragment.WatchFragment;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 /*
  *@Author chengjie
@@ -27,12 +42,97 @@ import com.jlu.chengjie.zhihu.R;
  *@Email chengjie.jlu@qq.com
  */
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSelectedListener {
+
+    private final String TAG = "MainActivity";
+
+    private final int HOME = 0;
+    private final int EYE = 1;
+    private final int MY = 2;
+
+    @BindView(R.id.tab_layout)
+    TabLayout tabLayout;
+
+    @BindView(R.id.view_pager)
+    ViewPager viewPager;
+
+    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        context = this;
+        initView();
+    }
+
+    private void initView() {
+        initTabLayout();
+    }
+
+    @Override
+    public void onBackPressed() {
+        moveTaskToBack(true);
+    }
+
+    @Override
+    public void onTabSelected(TabLayout.Tab tab) {
+        switch (tab.getPosition()) {
+            case HOME:
+                tab.setIcon(R.drawable.tab_home_active);
+                break;
+            case EYE:
+                tab.setIcon(R.drawable.tab_eye_active);
+                break;
+            case MY:
+                tab.setIcon(R.drawable.tab_my_active);
+                break;
+        }
+    }
+
+    @Override
+    public void onTabUnselected(TabLayout.Tab tab) {
+        switch (tab.getPosition()) {
+            case HOME:
+                tab.setIcon(R.drawable.tab_home);
+                break;
+            case EYE:
+                tab.setIcon(R.drawable.tab_eye);
+                break;
+            case MY:
+                tab.setIcon(R.drawable.tab_my);
+                break;
+        }
+    }
+
+    @Override
+    public void onTabReselected(TabLayout.Tab tab) {
+
+    }
+
+    /**
+     * when initialize tab item icon,no need to initialize home tab
+     * because it will be selected when activity create,then it will be
+     * initialize by {@link #onTabSelected(TabLayout.Tab)}
+     */
+    private void initTabLayout() {
+        tabLayout.addOnTabSelectedListener(this);
+        HomeFragment homeFragment = new HomeFragment();
+        WatchFragment watchFragment = new WatchFragment();
+        MyFragment myFragment = new MyFragment();
+
+        List<Fragment> fragments = new ArrayList<>();
+        fragments.add(homeFragment);
+        fragments.add(watchFragment);
+        fragments.add(myFragment);
+        String[] titles = new String[]{this.getString(R.string.tab_home),
+                this.getString(R.string.tab_watch), this.getString(R.string.tab_my)};
+        TabAdapter adapter = new TabAdapter(getSupportFragmentManager(), fragments, titles);
+        tabLayout.setupWithViewPager(viewPager);
+        viewPager.setAdapter(adapter);
+
+        Objects.requireNonNull(tabLayout.getTabAt(1)).setIcon(R.drawable.tab_eye);
+        Objects.requireNonNull(tabLayout.getTabAt(2)).setIcon(R.drawable.tab_my);
     }
 }
