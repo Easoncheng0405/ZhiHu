@@ -6,5 +6,13 @@
     <string name="btn_help">帮助与支持</string>
     <string name="input_phone">电话号码</string>
     <string name="social_login">社交账号登录</string>
+    <string name="fast_login">快捷登录</string>
+    <string name="pwd_login">密码登录</string>
+    <string name="discover">发现更大的世界</string>
     <string name="verification_code">获取验证码</string>
+    <string name="input_code">输入验证码</string>
+    <string name="input_pwd">输入密码</string>
+    <string name="qq_login">QQ登录</string>
+    <string name="wechat_login">微信登录</string>
+    <string name="weibo_login">微博登录</string>
 </resources>

@@ -24,38 +24,89 @@
         android:padding="20dp">
 
     <TextView
+            android:id="@+id/login_type"
             android:layout_alignParentEnd="true"
-            android:textSize="16sp"
+            android:textSize="18sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/social_login"
+            android:text="@string/pwd_login"
             android:textColor="@color/colorBlack"/>
 
-    <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/logo"
-            android:layout_centerHorizontal="true"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:src="@drawable/zhihu"
-            android:layout_marginTop="70dp"
-            android:contentDescription="@string/app_name"/>
-
-    <EditText
-            android:id="@+id/phone_number"
-            android:theme="@style/edit_text"
-            android:inputType="phone"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:hint="@string/input_phone"
-            android:layout_marginTop="50dp"
-            android:layout_below="@id/logo"
+    <TextView
+            android:layout_marginTop="60dp"
+            android:textSize="25sp"
+            android:textColor="@color/colorBlack"
+            android:id="@+id/discover"
+            android:textAlignment="center"
+            android:text="@string/discover"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
-    <Button
-            android:layout_alignParentBottom="true"
-            android:id="@+id/login"
-            style="@style/btn_block"
-            android:text="@string/verification_code"/>
+    <LinearLayout
+            android:layout_marginTop="30dp"
+            android:layout_below="@id/discover"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="20dp">
 
+        <EditText
+                android:id="@+id/phone_number"
+                android:theme="@style/edit_text"
+                android:inputType="phone"
+                android:hint="@string/input_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        <EditText
+                android:layout_marginTop="15dp"
+                android:id="@+id/code"
+                android:theme="@style/edit_text"
+                android:inputType="number"
+                android:hint="@string/input_code"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        <Button
+                android:layout_marginTop="30dp"
+                android:id="@+id/login"
+                style="@style/btn_block"
+                android:text="@string/verification_code"/>
+    </LinearLayout>
+
+    <TextView
+            android:padding="15dp"
+            android:textAlignment="center"
+            android:text="@string/social_login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_above="@+id/social_login"/>
+    <LinearLayout
+            android:id="@+id/social_login"
+            android:orientation="horizontal"
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:paddingRight="50dp"
+            android:paddingLeft="50dp"
+            android:layout_marginBottom="30dp">
+        <ImageView
+                android:src="@drawable/qq"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/qq_login"/>
+        <ImageView
+                android:src="@drawable/weibo"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/weibo_login"/>
+        <ImageView
+                android:src="@drawable/wechat"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/wechat_login"/>
+    </LinearLayout>
 </RelativeLayout>
