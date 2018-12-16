@@ -32,12 +32,10 @@ import java.util.List;
 public class TabAdapter extends FragmentPagerAdapter {
 
     private List<Fragment> fragments;
-    private String[] titles;
 
-    public TabAdapter(FragmentManager fm, List<Fragment> fragments, String[] titles) {
+    public TabAdapter(FragmentManager fm, List<Fragment> fragments) {
         super(fm);
         this.fragments = fragments;
-        this.titles = titles;
     }
 
     @Override
@@ -50,9 +48,4 @@ public class TabAdapter extends FragmentPagerAdapter {
         return fragments.size();
     }
 
-    @Nullable
-    @Override
-    public CharSequence getPageTitle(int position) {
-        return this.titles[position];
-    }
 }

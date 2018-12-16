@@ -46,7 +46,6 @@ import java.util.Objects;
 public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSelectedListener {
 
     private final String TAG = "MainActivity";
-    private String[] titles;
 
     private final int HOME = 0;
     private final int EYE = 1;
@@ -66,10 +65,6 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         context = this;
-        titles = new String[]{
-                this.getString(R.string.tab_home),
-                this.getString(R.string.tab_watch),
-                this.getString(R.string.tab_my)};
         initView();
     }
 
@@ -84,7 +79,7 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
 
     @Override
     public void onTabSelected(TabLayout.Tab tab) {
-        ZLog.d(TAG, "onTabSelected tab: " + titles[tab.getPosition()]);
+        ZLog.d(TAG, "onTabSelected tab: " + tab.getPosition());
         switch (tab.getPosition()) {
             case HOME:
                 tab.setIcon(R.drawable.tab_home_active);
@@ -100,7 +95,7 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
 
     @Override
     public void onTabUnselected(TabLayout.Tab tab) {
-        ZLog.d(TAG, "onTabUnselected tab: " + titles[tab.getPosition()]);
+        ZLog.d(TAG, "onTabUnselected tab: " + tab.getPosition());
         switch (tab.getPosition()) {
             case HOME:
                 tab.setIcon(R.drawable.tab_home);
@@ -116,7 +111,7 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
 
     @Override
     public void onTabReselected(TabLayout.Tab tab) {
-        ZLog.d(TAG, "onTabReselected tab: " + titles[tab.getPosition()]);
+        ZLog.d(TAG, "onTabReselected tab: " + tab.getPosition());
     }
 
     /**
@@ -139,7 +134,7 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
             }
         };
 
-        TabAdapter adapter = new TabAdapter(getSupportFragmentManager(), fragments, titles);
+        TabAdapter adapter = new TabAdapter(getSupportFragmentManager(), fragments);
         tabLayout.setupWithViewPager(viewPager);
         viewPager.setAdapter(adapter);
 
