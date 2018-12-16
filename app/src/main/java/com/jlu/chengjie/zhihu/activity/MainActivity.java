@@ -66,8 +66,10 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         context = this;
-        titles = new String[]{this.getString(R.string.tab_home),
-                this.getString(R.string.tab_watch), this.getString(R.string.tab_my)};
+        titles = new String[]{
+                this.getString(R.string.tab_home),
+                this.getString(R.string.tab_watch),
+                this.getString(R.string.tab_my)};
         initView();
     }
 
@@ -123,22 +125,29 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
      * initialize by {@link #onTabSelected(TabLayout.Tab)}
      */
     private void initTabLayout() {
-        ZLog.d(TAG,"start to initialize TabLayout.");
+        ZLog.d(TAG, "start to initialize TabLayout.");
         tabLayout.addOnTabSelectedListener(this);
         HomeFragment homeFragment = new HomeFragment();
         WatchFragment watchFragment = new WatchFragment();
         MyFragment myFragment = new MyFragment();
 
-        List<Fragment> fragments = new ArrayList<>();
-        fragments.add(homeFragment);
-        fragments.add(watchFragment);
-        fragments.add(myFragment);
+        List<Fragment> fragments = new ArrayList<Fragment>() {
+            {
+                add(homeFragment);
+                add(watchFragment);
+                add(myFragment);
+            }
+        };
 
         TabAdapter adapter = new TabAdapter(getSupportFragmentManager(), fragments, titles);
         tabLayout.setupWithViewPager(viewPager);
         viewPager.setAdapter(adapter);
 
-        Objects.requireNonNull(tabLayout.getTabAt(1)).setIcon(R.drawable.tab_eye);
-        Objects.requireNonNull(tabLayout.getTabAt(2)).setIcon(R.drawable.tab_my);
+        try {
+            Objects.requireNonNull(tabLayout.getTabAt(1)).setIcon(R.drawable.tab_eye);
+            Objects.requireNonNull(tabLayout.getTabAt(2)).setIcon(R.drawable.tab_my);
+        } catch (NullPointerException e) {
+            ZLog.e(TAG, "initialize tab item icon exception: ", e);
+        }
     }
 }
