@@ -31,6 +31,7 @@ import com.jlu.chengjie.zhihu.adapter.TabAdapter;
 import com.jlu.chengjie.zhihu.fragment.HomeFragment;
 import com.jlu.chengjie.zhihu.fragment.MyFragment;
 import com.jlu.chengjie.zhihu.fragment.WatchFragment;
+import com.jlu.chengjie.zhihu.util.ZLog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +46,7 @@ import java.util.Objects;
 public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSelectedListener {
 
     private final String TAG = "MainActivity";
+    private String[] titles;
 
     private final int HOME = 0;
     private final int EYE = 1;
@@ -64,6 +66,8 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         context = this;
+        titles = new String[]{this.getString(R.string.tab_home),
+                this.getString(R.string.tab_watch), this.getString(R.string.tab_my)};
         initView();
     }
 
@@ -78,6 +82,7 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
 
     @Override
     public void onTabSelected(TabLayout.Tab tab) {
+        ZLog.d(TAG, "onTabSelected tab: " + titles[tab.getPosition()]);
         switch (tab.getPosition()) {
             case HOME:
                 tab.setIcon(R.drawable.tab_home_active);
@@ -93,6 +98,7 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
 
     @Override
     public void onTabUnselected(TabLayout.Tab tab) {
+        ZLog.d(TAG, "onTabUnselected tab: " + titles[tab.getPosition()]);
         switch (tab.getPosition()) {
             case HOME:
                 tab.setIcon(R.drawable.tab_home);
@@ -108,7 +114,7 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
 
     @Override
     public void onTabReselected(TabLayout.Tab tab) {
-
+        ZLog.d(TAG, "onTabReselected tab: " + titles[tab.getPosition()]);
     }
 
     /**
@@ -117,6 +123,7 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
      * initialize by {@link #onTabSelected(TabLayout.Tab)}
      */
     private void initTabLayout() {
+        ZLog.d(TAG,"start to initialize TabLayout.");
         tabLayout.addOnTabSelectedListener(this);
         HomeFragment homeFragment = new HomeFragment();
         WatchFragment watchFragment = new WatchFragment();
@@ -126,8 +133,7 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
         fragments.add(homeFragment);
         fragments.add(watchFragment);
         fragments.add(myFragment);
-        String[] titles = new String[]{this.getString(R.string.tab_home),
-                this.getString(R.string.tab_watch), this.getString(R.string.tab_my)};
+
         TabAdapter adapter = new TabAdapter(getSupportFragmentManager(), fragments, titles);
         tabLayout.setupWithViewPager(viewPager);
         viewPager.setAdapter(adapter);

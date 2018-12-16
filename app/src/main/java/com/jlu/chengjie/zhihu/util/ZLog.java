@@ -26,6 +26,11 @@ import android.util.Log;
 
 public class ZLog {
 
+    private ZLog() {
+        throw new AssertionError("No com.jlu.chengjie.zhihu.util.ZLog instances for you!");
+    }
+
+
     private static boolean enable = true;
     private static final String PREFIX = "ZhiHu-";
 

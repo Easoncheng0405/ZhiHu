@@ -31,8 +31,11 @@ import butterknife.OnClick;
 import es.dmoral.toasty.Toasty;
 
 import com.jlu.chengjie.zhihu.R;
+import com.jlu.chengjie.zhihu.util.ZLog;
 
 public class LoginActivity extends AppCompatActivity {
+
+    private final String TAG = "LoginActivity";
 
     private boolean isPwdLogin = false;
 
@@ -62,22 +65,28 @@ public class LoginActivity extends AppCompatActivity {
      * the server will return login result
      * <p>
      * verification code: client request server sent a verification code to the phone,
-     * at the same time the server will return sent result and verification detail
+     * the server will return sent result and verification code detail
      *
      * @see #switchLoginType()
      * @see #isPwdLogin
      */
     @OnClick(R.id.login)
     void login() {
-        if (isPwdLogin) {
-            Toasty.error(this, R.string.pwd_wrong, Toast.LENGTH_LONG, true).show();
-        } else {
-            Toasty.success(this, "您的验证码是: 123456 ", Toast.LENGTH_LONG, true).show();
+        ZLog.d(TAG, "start to login, is password login: " + isPwdLogin);
+        try {
+            // todo login
+            if (isPwdLogin) {
+                Toasty.error(this, R.string.pwd_wrong, Toast.LENGTH_LONG, true).show();
+            } else {
+                Toasty.success(this, "您的验证码是: 123456 ", Toast.LENGTH_LONG, true).show();
+            }
+            startActivity(new Intent(this, MainActivity.class));
+            // this activity will not be used again, finish it.
+            ZLog.d(TAG, "login success! finish login activity.");
+            finish();
+        } catch (Exception e) {
+            ZLog.e(TAG, "login exception: ", e);
         }
-
-        startActivity(new Intent(this, MainActivity.class));
-        //this activity will not be used again, finish it.
-        finish();
     }
 
 
@@ -98,5 +107,6 @@ public class LoginActivity extends AppCompatActivity {
 
         //after switch login type,clear input content
         code.getText().clear();
+        ZLog.d(TAG, "switch login type, is password login: " + isPwdLogin);
     }
 }
