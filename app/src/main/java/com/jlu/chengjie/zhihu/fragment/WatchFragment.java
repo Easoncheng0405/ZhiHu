@@ -29,6 +29,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.jlu.chengjie.zhihu.R;
 
 public class WatchFragment extends Fragment {

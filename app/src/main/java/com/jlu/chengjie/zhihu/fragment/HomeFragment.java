@@ -33,8 +33,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
 import com.jlu.chengjie.zhihu.R;
 import com.jlu.chengjie.zhihu.adapter.QuestionsAdapter;
 import com.jlu.chengjie.zhihu.model.SimpleQuestion;
