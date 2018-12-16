@@ -24,6 +24,7 @@ package com.jlu.chengjie.zhihu.util;
 
 import android.util.Log;
 
+@SuppressWarnings("unused")
 public class ZLog {
 
     private ZLog() {

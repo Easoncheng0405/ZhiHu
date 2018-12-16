@@ -15,10 +15,97 @@
   ~ limitations under the License.
   -->
 
-<LinearLayout
+<RelativeLayout
+        android:background="@color/colorTinyGray"
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
+    <LinearLayout
+            android:id="@+id/title"
+            android:padding="10dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/colorWhite">
+        <RelativeLayout
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:layout_weight="23"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/search_box_shape">
+            <LinearLayout
+                    android:layout_centerInParent="true"
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent">
+                <ImageView
+                        android:src="@drawable/search"
+                        android:layout_width="18dp"
+                        android:layout_height="wrap_content"/>
+                <TextView
+                        android:textSize="15sp"
+                        android:gravity="center"
+                        android:text="搜索知乎内容"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"/>
+            </LinearLayout>
+        </RelativeLayout>
 
-</LinearLayout>
+        <ImageView
+                android:layout_marginStart="5dp"
+                android:layout_weight="2"
+                android:src="@drawable/scanning"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"/>
+    </LinearLayout>
+
+    <LinearLayout
+            android:id="@+id/detail"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/text_view_shape"
+            android:padding="10dp"
+            android:layout_below="@id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/avator"
+                    android:layout_margin="10dp"
+                    android:src="@drawable/avatar"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"/>
+            <TextView
+                    android:id="@+id/nick_name"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginBottom="7dp"
+                    android:textSize="20sp"
+                    android:layout_toEndOf="@id/avator"
+                    android:textColor="@color/colorBlack"
+                    android:text="知乎刘看山"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            <TextView
+                    android:textSize="16sp"
+                    android:layout_toEndOf="@id/avator"
+                    android:layout_marginStart="10dp"
+                    android:layout_below="@id/nick_name"
+                    android:text="分享身边的故事，发现更大的世界"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            <ImageView
+                    android:layout_marginEnd="15dp"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentEnd="true"
+                    android:src="@drawable/right_black"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"/>
+        </RelativeLayout>
+    </LinearLayout>
+
+</RelativeLayout>

@@ -16,7 +16,6 @@
 
 package com.jlu.chengjie.zhihu.activity;
 
-import android.content.Context;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -57,14 +56,11 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
     @BindView(R.id.view_pager)
     ViewPager viewPager;
 
-    private Context context;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        context = this;
         initView();
     }
 
@@ -125,7 +121,6 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
         HomeFragment homeFragment = new HomeFragment();
         WatchFragment watchFragment = new WatchFragment();
         MyFragment myFragment = new MyFragment();
-
         List<Fragment> fragments = new ArrayList<Fragment>() {
             {
                 add(homeFragment);
