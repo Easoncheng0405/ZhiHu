@@ -567,6 +567,38 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
                     <TextView
+                            android:id="@+id/cache"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="18sp"
+                            android:layout_marginStart="10dp"
+                            android:text="清除缓存"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+                    <TextView
+                            android:layout_centerVertical="true"
+                            android:layout_toEndOf="@id/cache"
+                            android:textSize="14sp"
+                            android:layout_marginStart="10dp"
+                            android:text="27.5KB"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+                    <ImageView
+                            android:layout_alignParentEnd="true"
+                            android:src="@drawable/right_black"
+                            android:layout_marginEnd="10dp"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"/>
+                </RelativeLayout>
+                <View
+                        android:layout_marginStart="20dp"
+                        android:background="@color/colorTinyGray"
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"/>
+                <RelativeLayout
+                        android:padding="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                    <TextView
                             android:textColor="@color/colorBlack"
                             android:textSize="18sp"
                             android:layout_marginStart="10dp"
@@ -590,20 +622,11 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
                     <TextView
-                            android:id="@+id/cache"
                             android:textColor="@color/colorBlack"
                             android:textSize="18sp"
                             android:layout_marginStart="10dp"
-                            android:text="清除缓存"
+                            android:text="关注知乎"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
-                    <TextView
-                            android:layout_centerVertical="true"
-                            android:layout_toEndOf="@id/cache"
-                            android:textSize="14sp"
-                            android:layout_marginStart="10dp"
-                            android:text="27.5KB"
-                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"/>
                     <ImageView
                             android:layout_alignParentEnd="true"
@@ -612,6 +635,7 @@
                             android:layout_width="20dp"
                             android:layout_height="20dp"/>
                 </RelativeLayout>
+
             </LinearLayout>
 
             <TextView
