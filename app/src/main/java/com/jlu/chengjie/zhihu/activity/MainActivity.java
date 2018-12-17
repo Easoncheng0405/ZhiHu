@@ -28,6 +28,7 @@ import butterknife.ButterKnife;
 import com.jlu.chengjie.zhihu.R;
 import com.jlu.chengjie.zhihu.adapter.TabAdapter;
 import com.jlu.chengjie.zhihu.fragment.HomeFragment;
+import com.jlu.chengjie.zhihu.fragment.MessageFragment;
 import com.jlu.chengjie.zhihu.fragment.MyFragment;
 import com.jlu.chengjie.zhihu.fragment.WatchFragment;
 import com.jlu.chengjie.zhihu.util.ZLog;
@@ -48,7 +49,8 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
 
     private final int HOME = 0;
     private final int EYE = 1;
-    private final int MY = 2;
+    private final int MESSAGE = 2;
+    private final int MY = 3;
 
     @BindView(R.id.tab_layout)
     TabLayout tabLayout;
@@ -83,6 +85,9 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
             case EYE:
                 tab.setIcon(R.drawable.tab_eye_active);
                 break;
+            case MESSAGE:
+                tab.setIcon(R.drawable.bell_active);
+                break;
             case MY:
                 tab.setIcon(R.drawable.tab_my_active);
                 break;
@@ -98,6 +103,9 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
                 break;
             case EYE:
                 tab.setIcon(R.drawable.tab_eye);
+                break;
+            case MESSAGE:
+                tab.setIcon(R.drawable.bell);
                 break;
             case MY:
                 tab.setIcon(R.drawable.tab_my);
@@ -120,11 +128,13 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
         tabLayout.addOnTabSelectedListener(this);
         HomeFragment homeFragment = new HomeFragment();
         WatchFragment watchFragment = new WatchFragment();
+        MessageFragment messageFragment = new MessageFragment();
         MyFragment myFragment = new MyFragment();
         List<Fragment> fragments = new ArrayList<Fragment>() {
             {
                 add(homeFragment);
                 add(watchFragment);
+                add(messageFragment);
                 add(myFragment);
             }
         };
@@ -135,7 +145,8 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
 
         try {
             Objects.requireNonNull(tabLayout.getTabAt(1)).setIcon(R.drawable.tab_eye);
-            Objects.requireNonNull(tabLayout.getTabAt(2)).setIcon(R.drawable.tab_my);
+            Objects.requireNonNull(tabLayout.getTabAt(2)).setIcon(R.drawable.bell);
+            Objects.requireNonNull(tabLayout.getTabAt(3)).setIcon(R.drawable.tab_my);
         } catch (NullPointerException e) {
             ZLog.e(TAG, "initialize tab item icon exception: ", e);
         }
