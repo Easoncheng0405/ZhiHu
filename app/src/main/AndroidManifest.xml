@@ -21,8 +21,12 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".activity.PersonalActivity"
-                  android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"/>
+        <activity
+                android:name=".activity.PersonalActivity"
+                android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"/>
+        <activity
+                android:name=".activity.EditorActivity"
+                android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"/>
     </application>
 
 </manifest>

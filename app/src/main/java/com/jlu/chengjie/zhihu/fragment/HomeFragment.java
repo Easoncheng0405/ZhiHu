@@ -23,6 +23,7 @@ package com.jlu.chengjie.zhihu.fragment;
  */
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -37,7 +38,9 @@ import android.view.ViewGroup;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import butterknife.OnClick;
 import com.jlu.chengjie.zhihu.R;
+import com.jlu.chengjie.zhihu.activity.EditorActivity;
 import com.jlu.chengjie.zhihu.adapter.QuestionsAdapter;
 import com.jlu.chengjie.zhihu.model.SimpleQuestion;
 
@@ -54,6 +57,7 @@ public class HomeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.home_fragment, container, false);
         ButterKnife.bind(this, view);
+
 
         SimpleQuestion question = new SimpleQuestion();
         question.setTitle("网络流行语是否被禁止进入高考语文作文？为什么？");
@@ -79,5 +83,10 @@ public class HomeFragment extends Fragment {
             recyclerView.setAdapter(adapter);
         }
         return view;
+    }
+
+    @OnClick(R.id.edit)
+    void edit() {
+        startActivity(new Intent(getContext(), EditorActivity.class));
     }
 }

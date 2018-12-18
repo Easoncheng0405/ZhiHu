@@ -72,10 +72,11 @@
     </LinearLayout>
 
     <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/edit"
             app:fab_icon="@drawable/pen_small"
             app:fab_colorNormal="@color/colorPrimaryLight"
             android:layout_marginEnd="30dp"
-            android:layout_marginBottom="60dp"
+            android:layout_marginBottom="30dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
             android:layout_height="48dp"
