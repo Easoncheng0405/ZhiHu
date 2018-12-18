@@ -23,6 +23,7 @@ package com.jlu.chengjie.zhihu.adapter;
  */
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -33,7 +34,9 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import butterknife.OnClick;
 import com.jlu.chengjie.zhihu.R;
+import com.jlu.chengjie.zhihu.activity.AnswerActivity;
 import com.jlu.chengjie.zhihu.model.SimpleQuestion;
 
 import java.util.List;
@@ -84,6 +87,12 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.View
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
+
+        @OnClick(R.id.content)
+        void answerDetail() {
+            context.startActivity(new Intent(context, AnswerActivity.class));
+        }
+
     }
 
 }

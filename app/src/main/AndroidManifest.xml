@@ -27,6 +27,8 @@
         <activity
                 android:name=".activity.EditorActivity"
                 android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"/>
+        <activity android:name=".activity.AnswerActivity"
+                  android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"/>
     </application>
 
 </manifest>

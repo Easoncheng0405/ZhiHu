@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright [2018] [chengjie.jlu@qq.com]
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<RelativeLayout
+        android:background="@color/colorTinyGray"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".activity.AnswerActivity">
+    <LinearLayout
+            android:id="@+id/action_bar"
+            android:padding="10dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@color/colorWhite">
+        <ImageView
+                android:layout_marginEnd="5dp"
+                android:layout_weight="2"
+                android:layout_marginTop="5dp"
+                android:src="@drawable/left_black"
+                android:layout_width="0dp"
+                android:layout_height="30dp"/>
+        <RelativeLayout
+                android:paddingLeft="15dp"
+                android:layout_marginTop="5dp"
+                android:paddingRight="15dp"
+                android:layout_weight="21"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:background="@drawable/search_box_shape">
+
+            <ImageView
+                    android:layout_marginEnd="5dp"
+                    android:layout_toStartOf="@id/search_txt"
+                    android:src="@drawable/search"
+                    android:layout_width="18dp"
+                    android:layout_height="wrap_content"/>
+            <TextView
+                    android:id="@+id/search_txt"
+                    android:layout_centerHorizontal="true"
+                    android:textSize="15sp"
+                    android:gravity="center"
+                    android:text="搜索知乎内容"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"/>
+        </RelativeLayout>
+
+        <ImageView
+                android:layout_marginStart="5dp"
+                android:layout_weight="2"
+                android:src="@drawable/more_black"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"/>
+    </LinearLayout>
+    <View
+            android:layout_below="@id/action_bar"
+            android:background="@color/colorLightGray"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"/>
+    <ScrollView
+            android:layout_below="@id/action_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fillViewport="true">
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            <RelativeLayout
+                    android:background="@color/colorWhite"
+                    android:padding="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                <TextView
+                        android:id="@+id/title"
+                        android:textSize="20sp"
+                        android:textColor="@color/colorBlack"
+                        android:text="网络流行语是否被禁止进入高考语文作文？为什么？"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+                <TextView
+                        android:id="@+id/info"
+                        android:layout_marginTop="5dp"
+                        android:layout_below="@id/title"
+                        android:textColor="@color/colorBlack"
+                        android:text="查看全部 638 个回答"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                <ImageView
+                        android:src="@drawable/right_black"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="7dp"
+                        android:layout_below="@id/title"
+                        android:layout_toEndOf="@id/info"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"/>
+            </RelativeLayout>
+            <View
+                    android:background="@color/colorLightGray"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"/>
+            <LinearLayout
+                    android:background="@drawable/text_view_shape"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp">
+                <TextView
+                        android:textColor="@color/colorPrimaryLight"
+                        android:textSize="16sp"
+                        android:text="邀请回答"
+                        android:gravity="center"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="match_parent"/>
+                <View
+                        android:layout_width="0.5dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/colorTinyGray"/>
+                <TextView
+                        android:textColor="@color/colorPrimaryLight"
+                        android:textSize="16sp"
+                        android:text="撰写答案"
+                        android:gravity="center"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="match_parent"/>
+            </LinearLayout>
+
+            <RelativeLayout
+                    android:background="@color/colorWhite"
+                    android:layout_marginTop="20dp"
+                    android:padding="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp">
+                <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/avatar"
+                        android:src="@drawable/avatar"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"/>
+                <TextView
+                        android:id="@+id/nick_name"
+                        android:layout_marginStart="10dp"
+                        android:textSize="15sp"
+                        android:textColor="@color/colorBlack"
+                        android:layout_toEndOf="@id/avatar"
+                        android:text="知乎刘看山"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                <TextView
+                        android:layout_below="@id/nick_name"
+                        android:layout_marginStart="10dp"
+                        android:layout_toEndOf="@id/avatar"
+                        android:text="分享身边的故事..."
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                <TextView
+                        android:paddingTop="5dp"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:paddingBottom="5dp"
+                        android:textSize="16sp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_centerVertical="true"
+                        android:background="@color/colorTinyGray"
+                        android:textColor="@color/colorPrimaryLight"
+                        android:layout_alignParentEnd="true"
+                        android:text=" + 关注"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+            </RelativeLayout>
+            <LinearLayout
+                    android:background="@color/colorWhite"
+                    android:padding="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                <WebView
+                        android:id="@+id/web_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <RelativeLayout
+            android:layout_alignParentBottom="true"
+            android:background="@color/colorWhite"
+            android:paddingBottom="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="60dp">
+        <TextView
+                android:id="@+id/agree"
+                android:paddingTop="5dp"
+                android:paddingStart="20dp"
+                android:paddingEnd="10dp"
+                android:paddingBottom="5dp"
+                android:textSize="14sp"
+                android:layout_marginEnd="10dp"
+                android:layout_centerVertical="true"
+                android:background="@color/colorTinyGray"
+                android:layout_alignParentStart="true"
+                android:text="赞同 13k"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        <TextView
+                android:layout_toEndOf="@id/agree"
+                android:paddingTop="5dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingBottom="5dp"
+                android:textSize="14sp"
+                android:layout_centerVertical="true"
+                android:background="@color/colorTinyGray"
+                android:text="反对"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        <ImageView
+                android:src="@drawable/comment"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"/>
+
+        <TextView
+                android:layout_marginTop="30dp"
+                android:textAlignment="center"
+                android:text="评论"
+                android:textSize="12sp"
+                android:layout_marginEnd="7dp"
+                android:layout_alignParentEnd="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        <ImageView
+                android:src="@drawable/star"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="50dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"/>
+
+        <TextView
+                android:layout_marginTop="30dp"
+                android:textAlignment="center"
+                android:text="收藏"
+                android:textSize="12sp"
+                android:layout_marginEnd="47dp"
+                android:layout_alignParentEnd="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+    </RelativeLayout>
+
+    <View
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="60dp"
+            android:background="@color/colorLightGray"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"/>
+</RelativeLayout>
