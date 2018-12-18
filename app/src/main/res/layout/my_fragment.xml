@@ -26,7 +26,7 @@
             android:padding="10dp"
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="50dp"
             android:background="@color/colorWhite">
         <RelativeLayout
                 android:paddingLeft="15dp"
