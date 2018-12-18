@@ -15,14 +15,102 @@
   ~ limitations under the License.
   -->
 
-<RelativeLayout
+<LinearLayout
+        android:background="@color/colorTinyGray"
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-    <TextView
-            android:layout_centerInParent="true"
-            android:text="@string/tab_watch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-</RelativeLayout>
+    <LinearLayout
+            android:baselineAligned="false"
+            android:padding="10dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/colorWhite">
+        <RelativeLayout
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/search_box_shape">
+
+            <ImageView
+                    android:src="@drawable/search"
+                    android:layout_toStartOf="@id/search_txt"
+                    android:layout_width="18dp"
+                    android:layout_height="wrap_content"/>
+            <TextView
+                    android:id="@+id/search_txt"
+                    android:textSize="15sp"
+                    android:gravity="center"
+                    android:layout_centerInParent="true"
+                    android:text="搜索关注列表"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"/>
+        </RelativeLayout>
+    </LinearLayout>
+    <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <RelativeLayout
+                    android:background="@color/colorWhite"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:padding="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp">
+                <TextView
+                        android:text="发现更多感兴趣的人"
+                        android:textSize="18sp"
+                        android:textColor="@color/colorBlack"
+                        android:layout_centerVertical="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                <ImageView
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/right_black"
+                        android:layout_alignParentEnd="true"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"/>
+                <de.hdodenhof.circleimageview.CircleImageView
+                        android:layout_marginEnd="100dp"
+                        android:src="@drawable/avatar"
+                        android:layout_alignParentEnd="true"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"/>
+                <de.hdodenhof.circleimageview.CircleImageView
+                        android:layout_marginEnd="75dp"
+                        android:src="@drawable/avatar"
+                        android:layout_alignParentEnd="true"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"/>
+                <de.hdodenhof.circleimageview.CircleImageView
+                        android:layout_marginEnd="50dp"
+                        android:src="@drawable/avatar"
+                        android:layout_alignParentEnd="true"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"/>
+                <de.hdodenhof.circleimageview.CircleImageView
+                        android:layout_marginEnd="25dp"
+                        android:src="@drawable/avatar"
+                        android:layout_alignParentEnd="true"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"/>
+            </RelativeLayout>
+
+            <android.support.v7.widget.RecyclerView
+                    android:id="@+id/focus_people"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+</LinearLayout>

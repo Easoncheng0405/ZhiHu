@@ -57,6 +57,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent">
             <ImageView
+                    android:layout_marginStart="10dp"
                     android:layout_toStartOf="@id/ask"
                     android:src="@drawable/edit"
                     android:layout_width="18dp"

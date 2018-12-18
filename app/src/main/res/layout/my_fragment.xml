@@ -101,8 +101,8 @@
                         android:layout_height="wrap_content"/>
 
                 <ImageView
+                        android:layout_marginTop="22dp"
                         android:layout_marginEnd="10dp"
-                        android:layout_centerVertical="true"
                         android:layout_alignParentEnd="true"
                         android:src="@drawable/right_black"
                         android:layout_width="20dp"
@@ -393,7 +393,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
                     <TextView
-                            android:id="@+id/wechat"
+                            android:id="@+id/weibo"
                             android:textColor="@color/colorBlack"
                             android:textSize="16sp"
                             android:layout_marginStart="10dp"
@@ -401,7 +401,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"/>
                     <TextView
-                            android:layout_below="@id/wechat"
+                            android:layout_below="@id/weibo"
                             android:text="妈妈说名字长点很潮"
                             android:layout_marginStart="10dp"
                             android:layout_width="wrap_content"

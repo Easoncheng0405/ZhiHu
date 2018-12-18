@@ -22,24 +22,43 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="15dp">
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp">
+        <de.hdodenhof.circleimageview.CircleImageView
+                android:src="@drawable/avatar"
+                android:layout_width="25dp"
+                android:layout_height="25dp"/>
+        <TextView
+                android:id="@+id/people"
+                android:layout_marginStart="15dp"
+                android:gravity="center"
+                android:text="知乎刘看山 关注了问题 · 3小时 前"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"/>
+    </LinearLayout>
 
     <TextView
             android:id="@+id/title"
             android:textSize="20sp"
             android:textColor="@color/colorBlack"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:text="你在诉讼\仲裁案件中，被对方律师下过什么套？"/>
     <TextView
             android:id="@+id/content"
             android:textColor="@color/colorGray"
             android:layout_marginTop="10dp"
             android:gravity="start"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:text="问题描述：本题已收录至知乎圆桌网络仲裁值多少，更多[仲裁]相关话题欢迎关注讨论。"/>
     <TextView
             android:id="@+id/info"
             android:layout_marginTop="10dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:text="11 回答 · 1083 关注"/>
 
 </LinearLayout>

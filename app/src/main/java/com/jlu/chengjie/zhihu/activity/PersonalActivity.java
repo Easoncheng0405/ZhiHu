@@ -99,6 +99,11 @@ public class PersonalActivity extends AppCompatActivity implements NestedScrollV
         recyclerView3.setAdapter(adapter3);
 
         List<RecyclerView> recyclerViews = new ArrayList<>();
+
+        recyclerView1.setFocusableInTouchMode(false);
+        recyclerView2.setFocusableInTouchMode(false);
+        recyclerView3.setFocusableInTouchMode(false);
+
         recyclerViews.add(recyclerView1);
         recyclerViews.add(recyclerView2);
         recyclerViews.add(recyclerView3);

@@ -32,7 +32,7 @@ public class ZLog {
     }
 
 
-    private static boolean enable = true;
+    private static boolean enable = false;
     private static final String PREFIX = "ZhiHu-";
 
     public static void d(String tag, String msg) {
