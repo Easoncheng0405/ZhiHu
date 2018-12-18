@@ -54,7 +54,7 @@ public class WatchFragment extends Fragment {
         View view = inflater.inflate(R.layout.watch_fragment, container, false);
         ButterKnife.bind(this, view);
 
-        FocusPeople people=new FocusPeople();
+        FocusPeople people = new FocusPeople();
         people.setPeople("知乎刘看山 关注了问题 · 3小时 前");
         people.setTitle("你在诉讼\\仲裁案件中，被对方律师下过什么套？");
         people.setContent("问题描述：本题已收录至知乎圆桌网络仲裁值多少，更多[仲裁]相关话题欢迎关注讨论。");
@@ -77,6 +77,7 @@ public class WatchFragment extends Fragment {
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
             recyclerView.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL));
             recyclerView.setAdapter(adapter);
+            recyclerView.setFocusableInTouchMode(false);
         }
         return view;
     }
