@@ -51,7 +51,6 @@ public class AnswerActivity extends AppCompatActivity {
             }
         };
         webView.setWebViewClient(client);
-        webView.loadDataWithBaseURL(null, html, "text/html", "utf-8", null);
-
+        webView.loadData(html, "text/html; charset=UTF-8", null);
     }
 }

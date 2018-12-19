@@ -52,24 +52,28 @@ public class WebViewActivity extends AppCompatActivity implements DownloadListen
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 ZLog.d(TAG, "load url: " + url);
                 if (!url.startsWith("http")) {
-                    ZLog.d(TAG,"unknown url, do nothing.");
+                    try {
+                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                        startActivity(intent);
+                    } catch (Exception e) {
+                        ZLog.w(TAG, "load url exception: ", e);
+                    }
                     return false;
+                } else {
+                    view.loadUrl(url);
+                    return true;
                 }
-                view.loadUrl(url);
-                return true;
             }
         });
         webView.setWebChromeClient(new WebChromeClient() {
             @Override
             public void onProgressChanged(WebView view, int newProgress) {
-                // TODO Auto-generated method stub
                 super.onProgressChanged(view, newProgress);
                 if (newProgress == 100) {
                     progressBar.setVisibility(View.GONE);
-                    //progressBar.setProgress(newProgress);
                 } else {
                     progressBar.setVisibility(View.VISIBLE);
-                    progressBar.setProgress(newProgress);//设置加载进度
+                    progressBar.setProgress(newProgress);
                 }
             }
         });
@@ -80,7 +84,7 @@ public class WebViewActivity extends AppCompatActivity implements DownloadListen
     @Override
     public void onDownloadStart(String url, String userAgent, String
             contentDisposition, String mimeType, long contentLength) {
-        ZLog.d(TAG, "start download url: " + url);
+        ZLog.d(TAG, "start download, url: " + url);
         Uri uri = Uri.parse(url);
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         startActivity(intent);
