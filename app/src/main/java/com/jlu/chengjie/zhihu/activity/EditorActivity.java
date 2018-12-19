@@ -19,9 +19,12 @@ package com.jlu.chengjie.zhihu.activity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import com.jlu.chengjie.zhihu.R;
+import com.jlu.chengjie.zhihu.util.ZLog;
 import jp.wasabeef.richeditor.RichEditor;
 
 public class EditorActivity extends AppCompatActivity {
+
+    private final String TAG = "EditorActivity";
 
     private RichEditor mEditor;
 
@@ -36,6 +39,8 @@ public class EditorActivity extends AppCompatActivity {
         mEditor.setPadding(10, 10, 10, 10);
 
         mEditor.setPlaceholder("输入问题内容");
+
+        mEditor.setOnTextChangeListener(text -> ZLog.d(TAG, "editor content: " + text));
 
         findViewById(R.id.action_undo).setOnClickListener(v -> mEditor.undo());
 

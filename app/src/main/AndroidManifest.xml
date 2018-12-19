@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.jlu.chengjie.zhihu">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
             android:allowBackup="true"
             android:icon="@mipmap/ic_launcher"
@@ -27,7 +29,10 @@
         <activity
                 android:name=".activity.EditorActivity"
                 android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"/>
-        <activity android:name=".activity.AnswerActivity"
+        <activity
+                android:name=".activity.AnswerActivity"
+                android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"/>
+        <activity android:name=".activity.WebViewActivity"
                   android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"/>
     </application>
 
