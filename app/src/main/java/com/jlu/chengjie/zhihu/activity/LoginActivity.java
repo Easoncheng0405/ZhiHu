@@ -28,6 +28,10 @@ import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import com.jlu.chengjie.zhihu.model.Response;
+import com.jlu.chengjie.zhihu.model.User;
+import com.jlu.chengjie.zhihu.util.OkHttpFactory;
+import com.jlu.chengjie.zhihu.util.TaskRunner;
 import es.dmoral.toasty.Toasty;
 
 import com.jlu.chengjie.zhihu.R;
@@ -74,7 +78,17 @@ public class LoginActivity extends AppCompatActivity {
     void login() {
         ZLog.d(TAG, "start to login, is password login: " + isPwdLogin);
         try {
-            // todo login
+            String sPhone = phone.getText().toString().trim();
+            String pwd = code.getText().toString().trim();
+            String url = String.format("http://10.151.130.210:8080/login?phone=%s&pwd=%s", sPhone, pwd);
+
+            TaskRunner.execute(() -> {
+                Response<User> response = OkHttpFactory.connect(url);
+                if (response != null)
+                    ZLog.d(TAG, String.format("login response code: %d, message: %s",response.getCode(),response.getMsg()));
+
+            });
+
             if (isPwdLogin) {
                 Toasty.error(this, R.string.pwd_wrong, Toast.LENGTH_LONG, true).show();
             } else {
