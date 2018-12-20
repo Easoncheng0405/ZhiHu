@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.jlu.chengjie.zhihu.util;
+package com.jlu.chengjie.zhihu.net;
 
 /*
  *@Author chengjie
@@ -26,18 +26,19 @@ package com.jlu.chengjie.zhihu.util;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.jlu.chengjie.zhihu.model.Response;
+import com.jlu.chengjie.zhihu.util.ZLog;
 import okhttp3.Call;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 
 import java.util.concurrent.TimeUnit;
 
-public class OkHttpFactory {
+public class OkHttpHelper {
 
-    private static final String TAG = "OkHttpFactory";
+    private static final String TAG = "OkHttpHelper";
     private static final int TIMEOUT = 5000;
 
-    public static <T> Response<T> connect(String url) {
+    public static <T> Response<T> get(String url) {
         try {
             OkHttpClient okHttpClient = new OkHttpClient.Builder()
                     .connectTimeout(TIMEOUT, TimeUnit.MILLISECONDS)
@@ -46,7 +47,7 @@ public class OkHttpFactory {
                     .build();
             final Request request = new Request.Builder()
                     .url(url)
-                    .get()//默认就是GET请求，可以不写
+                    .get()
                     .build();
             Call call = okHttpClient.newCall(request);
             String result = call.execute().body().string();
@@ -54,7 +55,7 @@ public class OkHttpFactory {
             return new Gson().fromJson(result, new TypeToken<Response<T>>() {
             }.getType());
         } catch (Exception e) {
-            ZLog.e(TAG, "connect to server exception: ", e);
+            ZLog.e(TAG, "get method exception: ", e);
         }
         return null;
     }

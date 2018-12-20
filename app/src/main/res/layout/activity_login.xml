@@ -58,19 +58,34 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
-        <EditText
-                android:layout_marginTop="15dp"
-                android:id="@+id/code"
-                android:theme="@style/edit_text"
-                android:inputType="number"
-                android:hint="@string/input_code"
+        <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content">
+            <EditText
+                    android:layout_weight="5"
+                    android:layout_marginTop="15dp"
+                    android:id="@+id/code"
+                    android:theme="@style/edit_text"
+                    android:inputType="number"
+                    android:hint="@string/input_code"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"/>
+            <TextView
+                    android:textSize="18sp"
+                    android:id="@+id/send"
+                    android:gravity="center"
+                    android:layout_weight="5"
+                    android:textColor="@color/colorPrimaryLight"
+                    android:text="获取验证码"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"/>
+        </LinearLayout>
         <Button
                 android:layout_marginTop="30dp"
-                android:id="@+id/login"
+                android:id="@+id/ok"
                 style="@style/btn_block"
-                android:text="@string/verification_code"/>
+                android:text="下一步"/>
     </LinearLayout>
 
     <TextView

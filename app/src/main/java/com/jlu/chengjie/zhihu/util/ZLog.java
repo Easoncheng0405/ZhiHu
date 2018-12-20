@@ -41,10 +41,20 @@ public class ZLog {
         }
     }
 
+    public static void d(String tag, String format, Object... objects) {
+        String msg = String.format(format, objects);
+        d(tag, msg);
+    }
+
     public static void d(String tag, String msg, Exception e) {
         if (enable) {
             Log.d(addPreFix(tag), msg, e);
         }
+    }
+
+    public static void d(String tag, String format, Exception e, Object... objects) {
+        String msg = String.format(format, objects);
+        d(tag, msg, e);
     }
 
     public static void w(String tag, String msg) {
@@ -53,12 +63,21 @@ public class ZLog {
         }
     }
 
+    public static void w(String tag, String format, Object... objects) {
+        String msg = String.format(format, objects);
+        w(tag, msg);
+    }
+
     public static void w(String tag, String msg, Exception e) {
         if (enable) {
             Log.w(addPreFix(tag), msg, e);
         }
     }
 
+    public static void w(String tag, String format, Exception e, Object... objects) {
+        String msg = String.format(format, objects);
+        w(tag, msg, e);
+    }
 
     public static void e(String tag, String msg) {
         if (enable) {
@@ -66,10 +85,20 @@ public class ZLog {
         }
     }
 
+    public static void e(String tag, String format, Object... objects) {
+        String msg = String.format(format, objects);
+        e(tag, msg);
+    }
+
     public static void e(String tag, String msg, Exception e) {
         if (enable) {
             Log.e(addPreFix(tag), msg, e);
         }
+    }
+
+    public static void e(String tag, String format, Exception e, Object... objects) {
+        String msg = String.format(format, objects);
+        e(tag, msg, e);
     }
 
     private static String addPreFix(String tag) {
