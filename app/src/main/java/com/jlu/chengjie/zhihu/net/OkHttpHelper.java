@@ -31,6 +31,7 @@ import okhttp3.Call;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 
+import java.lang.reflect.Type;
 import java.util.concurrent.TimeUnit;
 
 public class OkHttpHelper {
@@ -38,7 +39,7 @@ public class OkHttpHelper {
     private static final String TAG = "OkHttpHelper";
     private static final int TIMEOUT = 5000;
 
-    public static <T> Response<T> get(String url) {
+    public static <T> Response<T> get(String url, Type type) {
         try {
             OkHttpClient okHttpClient = new OkHttpClient.Builder()
                     .connectTimeout(TIMEOUT, TimeUnit.MILLISECONDS)
@@ -52,8 +53,7 @@ public class OkHttpHelper {
             Call call = okHttpClient.newCall(request);
             String result = call.execute().body().string();
             ZLog.d(TAG, "url: " + url + " response: " + result);
-            return new Gson().fromJson(result, new TypeToken<Response<T>>() {
-            }.getType());
+            return new Gson().fromJson(result, type);
         } catch (Exception e) {
             ZLog.e(TAG, "get method exception: ", e);
         }

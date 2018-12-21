@@ -33,7 +33,7 @@ import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import cn.pedant.SweetAlert.SweetAlertDialog;
+import com.google.gson.reflect.TypeToken;
 import com.jlu.chengjie.zhihu.model.Response;
 import com.jlu.chengjie.zhihu.model.User;
 import com.jlu.chengjie.zhihu.net.NetWorkUtil;
@@ -41,25 +41,32 @@ import com.jlu.chengjie.zhihu.net.OkHttpHelper;
 import com.jlu.chengjie.zhihu.net.RequestCode;
 import com.jlu.chengjie.zhihu.net.ServerHelper;
 import com.jlu.chengjie.zhihu.util.TaskRunner;
+import com.vondear.rxui.view.dialog.RxDialogShapeLoading;
 import es.dmoral.toasty.Toasty;
-
 import com.jlu.chengjie.zhihu.R;
 import com.jlu.chengjie.zhihu.util.ZLog;
 
+import java.lang.reflect.Type;
+
+/**
+ * client accept two login types: password or mobile phone verification code
+ * <p>
+ * password: client send phone number and password to the server to login,
+ * the server will return login result
+ * <p>
+ * verification code: client request server sent a verification code to the phone,
+ * the server will return sent result and verification code detail
+ */
 public class LoginActivity extends AppCompatActivity {
 
-    private final String TAG = "LoginActivity";
-    private Context context;
-    private boolean isPwdLogin = false;
-
     @BindView(R.id.phone_number)
-    EditText phone;
+    EditText editTextPhone;
 
     @BindView(R.id.code)
-    EditText code;
+    EditText editTextCode;
 
     @BindView(R.id.ok)
-    Button ok;
+    Button buttonOk;
 
     @BindView(R.id.login_type)
     TextView loginType;
@@ -67,9 +74,16 @@ public class LoginActivity extends AppCompatActivity {
     @BindView(R.id.send)
     TextView sender;
 
+    private final String TAG = "LoginActivity";
+    private Context context;
+
+    private boolean isPwdLogin = false;
+
+    private String phoneNum = "";
     private String verifyCode = "";
 
-    private SweetAlertDialog dialog;
+    private RxDialogShapeLoading dialog;
+    private CountDownTimer timer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,32 +92,40 @@ public class LoginActivity extends AppCompatActivity {
         context = this;
         ButterKnife.bind(this);
 
-        dialog = new SweetAlertDialog(context, SweetAlertDialog.PROGRESS_TYPE);
-        dialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
-        dialog.setTitleText("登录中，请稍后...");
+        dialog = new RxDialogShapeLoading(context);
+        dialog.setLoadingText("登录中...");
         dialog.setCancelable(false);
+
+        timer = new CountDownTimer(60000, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                String text = "已发送(" + millisUntilFinished / 1000 + "s)";
+                sender.setText(text);
+            }
+
+            @Override
+            public void onFinish() {
+                sender.setEnabled(true);
+                sender.setText("重新获取验证码");
+                sender.setTextColor(Color.parseColor("#1296db"));
+            }
+        };
     }
 
-    /**
-     * client accept two login types: password or mobile phone verification code
-     * <p>
-     * password: client send phone number and password to the server to login,
-     * the server will return login result
-     * <p>
-     * verification code: client request server sent a verification code to the phone,
-     * the server will return sent result and verification code detail
-     *
-     * @see #switchLoginType()
-     * @see #isPwdLogin
-     */
     @OnClick(R.id.ok)
     void ok() {
         if (!NetWorkUtil.isNetworkAvailable(context)) {
             Toasty.error(context, "网络不可用，检查您的网络设置", Toast.LENGTH_LONG, true).show();
             return;
         }
-        String sPhone = phone.getText().toString().trim();
-        String sPwd = code.getText().toString();
+
+        String sPhone = editTextPhone.getText().toString().trim();
+        String sPwd = editTextCode.getText().toString();
+
+        if (!sPhone.matches("^1([34578])\\d{9}$")) {
+            Toasty.error(context, "请输入正确的电话号码", Toast.LENGTH_LONG, true).show();
+            return;
+        }
         if (isPwdLogin)
             pwdLogin(sPhone, sPwd);
         else {
@@ -112,7 +134,10 @@ public class LoginActivity extends AppCompatActivity {
                 return;
             }
             if (verifyCode.equals(sPwd)) {
-                success();
+                if (sPhone.equals(phoneNum))
+                    success();
+                else
+                    Toasty.error(context, "验证码与手机号码不匹配", Toast.LENGTH_LONG, true).show();
             } else {
                 Toasty.error(context, "验证码错误", Toast.LENGTH_LONG, true).show();
             }
@@ -121,24 +146,29 @@ public class LoginActivity extends AppCompatActivity {
 
     @OnClick(R.id.send)
     void sendVerificationCode() {
-        String sPhone = phone.getText().toString().trim();
-        if (TextUtils.isEmpty(sPhone)) {
-            Toasty.error(context, "输入电话号码", Toast.LENGTH_LONG, true).show();
+        String sPhone = editTextPhone.getText().toString().trim();
+        if (TextUtils.isEmpty(sPhone) || !sPhone.matches("^1([34578])\\d{9}$")) {
+            Toasty.error(context, "请输入正确的电话号码", Toast.LENGTH_LONG, true).show();
             return;
         }
+
         String url = ServerHelper.getUrlRegister(sPhone);
         ZLog.d(TAG, "start to send verification code.");
         try {
             TaskRunner.execute(() -> {
-                Response<User> response = OkHttpHelper.get(url);
+                Type type = new TypeToken<Response<User>>() {
+                }.getType();
+                Response<User> response = OkHttpHelper.get(url, type);
                 runOnUiThread(() -> {
                     if (response != null) {
-                        ZLog.d(TAG, "login response code: %d, message: %s", response.getCode(), response.getMsg());
+                        ZLog.d(TAG, "login response code: %d, message: %s, code: %s",
+                                response.getCode(), response.getMsg(), response.getNote());
                         switch (response.getCode()) {
                             case RequestCode.SUCCESS:
                                 verifyCode = response.getNote();
-                                code.setText(verifyCode);
+                                editTextCode.setText(verifyCode);
                                 Toasty.success(context, "您的验证码是: " + verifyCode, Toast.LENGTH_LONG).show();
+                                phoneNum = response.getObject().getPhone();
                                 break;
                             case RequestCode.SERVER_FATAL:
                                 Toasty.info(context, "服务器发生错误", Toast.LENGTH_LONG).show();
@@ -146,8 +176,12 @@ public class LoginActivity extends AppCompatActivity {
                             default:
                                 break;
                         }
-                    } else
+                    } else {
                         Toasty.error(context, "无法连接到服务器", Toast.LENGTH_LONG).show();
+                        // send verification code failed
+                        timer.onFinish();
+                        timer.cancel();
+                    }
                 });
             });
         } catch (Exception e) {
@@ -156,7 +190,7 @@ public class LoginActivity extends AppCompatActivity {
         sender.setTextColor(Color.GRAY);
         sender.setEnabled(false);
         // after 60 seconds can send verification code code again.
-        clock();
+        timer.start();
     }
 
 
@@ -164,27 +198,27 @@ public class LoginActivity extends AppCompatActivity {
     void switchLoginType() {
         isPwdLogin = !isPwdLogin;
         if (isPwdLogin) {
-            code.setHint(R.string.input_pwd);
-            ok.setText(R.string.btn_login);
+            editTextCode.setHint(R.string.input_pwd);
+            buttonOk.setText(R.string.btn_login);
             loginType.setText(R.string.fast_login);
-            code.setInputType(InputType.TYPE_CLASS_TEXT);
+            editTextCode.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD | InputType.TYPE_CLASS_TEXT);
             sender.setVisibility(View.GONE);
         } else {
-            code.setHint(R.string.input_code);
-            ok.setText("下一步");
+            editTextCode.setHint(R.string.input_code);
+            buttonOk.setText("下一步");
             loginType.setText(R.string.pwd_login);
-            code.setInputType(InputType.TYPE_CLASS_NUMBER);
+            editTextCode.setInputType(InputType.TYPE_CLASS_NUMBER);
             sender.setVisibility(View.VISIBLE);
         }
 
-        //after switch login type,clear input content
-        code.getText().clear();
+        // after switch login type,clear input content
+        editTextCode.getText().clear();
         ZLog.d(TAG, "switch login type, is password login: " + isPwdLogin);
     }
 
     private void pwdLogin(String sPhone, String sPwd) {
-        if (TextUtils.isEmpty(sPhone) || TextUtils.isEmpty(sPwd)) {
-            Toasty.error(context, "输入电话号和密码", Toast.LENGTH_LONG, true).show();
+        if (TextUtils.isEmpty(sPwd)) {
+            Toasty.error(context, "输入密码", Toast.LENGTH_LONG, true).show();
             return;
         }
         String url = ServerHelper.getUrlLogin(sPhone, sPwd);
@@ -192,7 +226,9 @@ public class LoginActivity extends AppCompatActivity {
         try {
             dialog.show();
             TaskRunner.execute(() -> {
-                Response<User> response = OkHttpHelper.get(url);
+                Type type = new TypeToken<Response<User>>() {
+                }.getType();
+                Response<User> response = OkHttpHelper.get(url, type);
                 runOnUiThread(() -> {
                     if (response != null) {
                         ZLog.d(TAG, "login response code: %d, message: %s", response.getCode(), response.getMsg());
@@ -227,21 +263,5 @@ public class LoginActivity extends AppCompatActivity {
         // this activity will not be used again, finish it.
         ZLog.d(TAG, "login success! finish login activity.");
         finish();
-    }
-
-    private void clock() {
-        new CountDownTimer(60000, 1000) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                sender.setText("已发送(" + millisUntilFinished / 1000 + "s)");
-            }
-
-            @Override
-            public void onFinish() {
-                sender.setEnabled(true);
-                sender.setText("重新获取验证码");
-                sender.setTextColor(Color.parseColor("#1296db"));
-            }
-        }.start();
     }
 }

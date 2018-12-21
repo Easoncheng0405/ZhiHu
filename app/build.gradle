@@ -54,7 +54,7 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:2.2.0'
     implementation 'com.getbase:floatingactionbutton:1.10.1'
     implementation 'jp.wasabeef:richeditor-android:1.2.2'
-    implementation 'com.github.f0ris.sweetalert:library:1.5.1'
+    implementation "com.github.vondear.RxTool:RxUI:v2.2.7"
     implementation ('com.github.Victory-Over:SuperWeb:v1.0.2'){
         exclude group: 'com.android.support'
     }
