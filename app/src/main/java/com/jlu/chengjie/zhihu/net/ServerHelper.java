@@ -22,8 +22,6 @@ package com.jlu.chengjie.zhihu.net;
  *@Email chengjie.jlu@qq.com
  */
 
-import java.util.Objects;
-
 public class ServerHelper {
 
     private static final String HOST = "10.151.130.210";
@@ -38,11 +36,17 @@ public class ServerHelper {
 
     private static final String URL_REGISTER = "/fastLogin?phone=%s";
 
+    private static final String URL_QUESTION = "/question/add";
+
     public static String getUrlLogin(String... args) {
         return String.format(SERVER_URL + URL_LOGIN, (Object[]) args);
     }
 
     public static String getUrlRegister(String phone) {
         return String.format(SERVER_URL + URL_REGISTER, phone);
+    }
+
+    public static String getUrlQuestion() {
+        return String.format(SERVER_URL + URL_QUESTION);
     }
 }

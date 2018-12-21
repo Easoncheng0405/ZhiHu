@@ -4,7 +4,7 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.jlu.chengjie.zhihu"
-        minSdkVersion 21
+        minSdkVersion 19
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -55,6 +55,7 @@ dependencies {
     implementation 'com.getbase:floatingactionbutton:1.10.1'
     implementation 'jp.wasabeef:richeditor-android:1.2.2'
     implementation "com.github.vondear.RxTool:RxUI:v2.2.7"
+    implementation 'org.litepal.android:java:3.0.0'
     implementation ('com.github.Victory-Over:SuperWeb:v1.0.2'){
         exclude group: 'com.android.support'
     }

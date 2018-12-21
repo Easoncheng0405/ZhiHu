@@ -24,14 +24,13 @@ package com.jlu.chengjie.zhihu.net;
 
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.jlu.chengjie.zhihu.model.Response;
 import com.jlu.chengjie.zhihu.util.ZLog;
-import okhttp3.Call;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
+import okhttp3.*;
 
 import java.lang.reflect.Type;
+import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 public class OkHttpHelper {
@@ -40,23 +39,46 @@ public class OkHttpHelper {
     private static final int TIMEOUT = 5000;
 
     public static <T> Response<T> get(String url, Type type) {
+        OkHttpClient okHttpClient = simpleClient();
+        final Request request = new Request.Builder()
+                .url(url)
+                .get()
+                .build();
+        return go(okHttpClient, request, type);
+    }
+
+    public static <T> Response<T> post(String url, Type type, Map<String, String> params) {
+        FormBody.Builder builder = new FormBody.Builder();
+        for (String key : params.keySet()) {
+            builder.add(key, Objects.requireNonNull(params.get(key)));
+        }
+        RequestBody body = builder.build();
+        OkHttpClient okHttpClient = simpleClient();
+        final Request request = new Request.Builder()
+                .url(url)
+                .post(body)
+                .build();
+        return go(okHttpClient, request, type);
+    }
+
+    private static <T> Response<T> go(OkHttpClient okHttpClient, Request request, Type type) {
         try {
-            OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                    .connectTimeout(TIMEOUT, TimeUnit.MILLISECONDS)
-                    .readTimeout(TIMEOUT, TimeUnit.MILLISECONDS)
-                    .writeTimeout(TIMEOUT, TimeUnit.MILLISECONDS)
-                    .build();
-            final Request request = new Request.Builder()
-                    .url(url)
-                    .get()
-                    .build();
             Call call = okHttpClient.newCall(request);
             String result = call.execute().body().string();
-            ZLog.d(TAG, "url: " + url + " response: " + result);
+            ZLog.d(TAG, "url: " + request.url() + " response: " + result);
             return new Gson().fromJson(result, type);
         } catch (Exception e) {
-            ZLog.e(TAG, "get method exception: ", e);
+            ZLog.e(TAG, "OkHttp exception, method: %s, url: %s", e, request.method(), request.url());
         }
         return null;
     }
+
+    private static OkHttpClient simpleClient() {
+        return new OkHttpClient.Builder()
+                .connectTimeout(TIMEOUT, TimeUnit.MILLISECONDS)
+                .readTimeout(TIMEOUT, TimeUnit.MILLISECONDS)
+                .writeTimeout(TIMEOUT, TimeUnit.MILLISECONDS)
+                .build();
+    }
+
 }

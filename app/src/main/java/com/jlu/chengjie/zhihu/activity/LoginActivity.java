@@ -40,6 +40,7 @@ import com.jlu.chengjie.zhihu.net.NetWorkUtil;
 import com.jlu.chengjie.zhihu.net.OkHttpHelper;
 import com.jlu.chengjie.zhihu.net.RequestCode;
 import com.jlu.chengjie.zhihu.net.ServerHelper;
+import com.jlu.chengjie.zhihu.util.SPUtil;
 import com.jlu.chengjie.zhihu.util.TaskRunner;
 import com.vondear.rxui.view.dialog.RxDialogShapeLoading;
 import es.dmoral.toasty.Toasty;
@@ -84,12 +85,14 @@ public class LoginActivity extends AppCompatActivity {
 
     private RxDialogShapeLoading dialog;
     private CountDownTimer timer;
+    private SPUtil spUtil;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         context = this;
+        spUtil = new SPUtil(context);
         ButterKnife.bind(this);
 
         dialog = new RxDialogShapeLoading(context);
@@ -135,7 +138,7 @@ public class LoginActivity extends AppCompatActivity {
             }
             if (verifyCode.equals(sPwd)) {
                 if (sPhone.equals(phoneNum))
-                    success();
+                    success(phoneNum);
                 else
                     Toasty.error(context, "验证码与手机号码不匹配", Toast.LENGTH_LONG, true).show();
             } else {
@@ -234,7 +237,7 @@ public class LoginActivity extends AppCompatActivity {
                         ZLog.d(TAG, "login response code: %d, message: %s", response.getCode(), response.getMsg());
                         switch (response.getCode()) {
                             case RequestCode.SUCCESS:
-                                success();
+                                success(response.getObject().getPhone());
                                 break;
                             case RequestCode.NOT_FOUND:
                                 Toasty.info(context, "手机号码尚未注册，请切换到快捷登录以注册", Toast.LENGTH_LONG).show();
@@ -258,9 +261,10 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private void success() {
+    private void success(String phone) {
         startActivity(new Intent(context, MainActivity.class));
         // this activity will not be used again, finish it.
+        spUtil.putString(spUtil.KEY_PHONE, phone);
         ZLog.d(TAG, "login success! finish login activity.");
         finish();
     }

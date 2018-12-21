@@ -33,8 +33,12 @@ public class TaskRunner {
     private static final int CORE_COUNT = Runtime.getRuntime().availableProcessors();
 
     private static ThreadPoolExecutor executor
-            = new ThreadPoolExecutor(CORE_COUNT, CORE_COUNT, 1000,
+            = new ThreadPoolExecutor(CORE_COUNT, CORE_COUNT, 10000,
             TimeUnit.MILLISECONDS, new LinkedBlockingQueue<>());
+
+    private TaskRunner(){
+        throw new AssertionError("No com.jlu.chengjie.zhihu.util.TaskRunner instances for you!");
+    }
 
     public static void execute(Runnable runnable) {
         try {
