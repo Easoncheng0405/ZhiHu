@@ -39,7 +39,6 @@ public class WebViewActivity extends AppCompatActivity implements DownloadListen
     @BindView(R.id.web_view)
     NestedScrollSuperWebView webView;
 
-
     @BindView(R.id.progressbar)
     ProgressBar progressBar;
 
@@ -56,14 +55,14 @@ public class WebViewActivity extends AppCompatActivity implements DownloadListen
                         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                         startActivity(intent);
                     } catch (Exception e) {
-                        ZLog.w(TAG, "load url exception: ", e);
+                        ZLog.w(TAG, "load url failed, url" + url);
                     }
-                    return false;
                 } else {
                     view.loadUrl(url);
-                    return true;
                 }
+                return true;
             }
+
         });
         webView.setWebChromeClient(new WebChromeClient() {
             @Override

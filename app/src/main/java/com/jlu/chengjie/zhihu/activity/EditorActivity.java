@@ -36,8 +36,6 @@ import com.jlu.chengjie.zhihu.util.TaskRunner;
 import com.jlu.chengjie.zhihu.util.ZLog;
 import es.dmoral.toasty.Toasty;
 import jp.wasabeef.richeditor.RichEditor;
-import okhttp3.RequestBody;
-import org.w3c.dom.Text;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
@@ -170,11 +168,11 @@ public class EditorActivity extends AppCompatActivity {
                     Toasty.error(context, "无法连接到服务器", Toast.LENGTH_LONG, true).show();
                     return;
                 }
-                if (response.getCode() == 200) {
+                if (response.getCode() == RequestCode.SUCCESS) {
                     Toasty.success(context, "成功发布问题", Toast.LENGTH_LONG, true).show();
                     finish();
                 } else {
-                    Toasty.error(context, "发布问题失败,code: " + response.getCode(), Toast.LENGTH_LONG, true).show();
+                    Toasty.error(context, "发布问题失败, code: " + response.getCode(), Toast.LENGTH_LONG, true).show();
                 }
             });
 
