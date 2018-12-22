@@ -40,7 +40,10 @@
         <activity
                 android:name=".activity.WebViewActivity"
                 android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"/>
-        <activity android:name=".activity.QuestionActivity"
+        <activity
+                android:name=".activity.QuestionActivity"
+                android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"/>
+        <activity android:name=".activity.ModifyPasswordActivity"
                   android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"/>
     </application>
 

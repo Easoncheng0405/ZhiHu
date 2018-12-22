@@ -29,6 +29,8 @@ public class User {
 
     private String pwd;
 
+    private String email;
+
     private long st;
 
     public String getPhone() {
@@ -41,6 +43,14 @@ public class User {
 
     public String getPwd() {
         return pwd;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public void setPwd(String pwd) {

@@ -18,28 +18,13 @@ package com.jlu.chengjie.zhihu.util;
 
 /*
  *@Author chengjie
- *@Date 2018-12-17
+ *@Date 2018-12-22
  *@Email chengjie.jlu@qq.com
  */
 
-import android.content.Context;
+public class Regex {
 
-public class PixelUtil {
+    public static final String PHONE_NUM = "^1([34578])\\d{9}$";
 
-    private PixelUtil() {
-        throw new AssertionError("No com.jlu.chengjie.zhihu.util.PixelUtil instances for you!");
-    }
-
-    public static int px2dp(Context context, float pxValue) {
-        return (int) (pxValue / getScale(context) + 0.5f);
-    }
-
-    public static float dp2px(Context context, int dp) {
-        return getScale(context) * dp;
-    }
-
-    private static float getScale(Context context){
-        return context.getResources().getDisplayMetrics().density;
-    }
-
+    public static final String EMAIL = "^[a-z0-9A-Z]+[- | a-z0-9A-Z . _]+@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-z]{2,}$";
 }

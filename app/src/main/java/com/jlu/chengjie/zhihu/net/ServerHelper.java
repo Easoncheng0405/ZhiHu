@@ -32,21 +32,40 @@ public class ServerHelper {
 
     private static final String SERVER_URL = HTTP_METHOD + HOST + ":" + PORT;
 
-    private static final String URL_LOGIN = "/pwdLogin?phone=%s&pwd=%s";
+    private static final String URL_LOGIN = SERVER_URL + "/pwdLogin?phone=%s&pwd=%s";
 
-    private static final String URL_REGISTER = "/fastLogin?phone=%s";
+    private static final String URL_REGISTER = SERVER_URL + "/fastLogin?phone=%s";
 
-    private static final String URL_QUESTION = "/question/add";
+    private static final String URL_QUESTION = SERVER_URL + "/question/add";
+
+    private static final String URL_SET_EMAIL = SERVER_URL + "/user/email?phone=%s&email=%s";
+
+    private static final String URL_SEND_CODE = SERVER_URL + "/user/code?phone=%s";
+
+    private static final String URL_SET_PWD = SERVER_URL + "/user/pwd?phone=%s&pwd=%s";
 
     public static String getUrlLogin(String... args) {
-        return String.format(SERVER_URL + URL_LOGIN, (Object[]) args);
+        return String.format(URL_LOGIN, (Object[]) args);
     }
 
     public static String getUrlRegister(String phone) {
-        return String.format(SERVER_URL + URL_REGISTER, phone);
+        return String.format(URL_REGISTER, phone);
     }
 
     public static String getUrlQuestion() {
-        return String.format(SERVER_URL + URL_QUESTION);
+        return URL_QUESTION;
     }
+
+    public static String getUrlSetEmail(String... args) {
+        return String.format(URL_SET_EMAIL, (Object[]) args);
+    }
+
+    public static String getUrlSendCode(String phone) {
+        return String.format(URL_SEND_CODE, phone);
+    }
+
+    public static String getUrlSetPwd(String phone, String pwd) {
+        return String.format(URL_SET_PWD, phone, pwd);
+    }
+
 }

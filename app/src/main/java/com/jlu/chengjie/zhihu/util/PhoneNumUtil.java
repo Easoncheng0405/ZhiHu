@@ -18,28 +18,19 @@ package com.jlu.chengjie.zhihu.util;
 
 /*
  *@Author chengjie
- *@Date 2018-12-17
+ *@Date 2018-12-22
  *@Email chengjie.jlu@qq.com
  */
 
-import android.content.Context;
+public class PhoneNumUtil {
 
-public class PixelUtil {
-
-    private PixelUtil() {
-        throw new AssertionError("No com.jlu.chengjie.zhihu.util.PixelUtil instances for you!");
+    public static boolean isPhoneNum(String phoneNum) {
+        return phoneNum != null && phoneNum.matches(Regex.PHONE_NUM);
     }
 
-    public static int px2dp(Context context, float pxValue) {
-        return (int) (pxValue / getScale(context) + 0.5f);
+    public static String encryptPhone(String phoneNum) {
+        return isPhoneNum(phoneNum) ? phoneNum.substring(0, 3) + "****" + phoneNum.substring(7, 11) : "";
     }
 
-    public static float dp2px(Context context, int dp) {
-        return getScale(context) * dp;
-    }
-
-    private static float getScale(Context context){
-        return context.getResources().getDisplayMetrics().density;
-    }
 
 }

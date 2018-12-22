@@ -40,6 +40,7 @@ import com.jlu.chengjie.zhihu.net.NetWorkUtil;
 import com.jlu.chengjie.zhihu.net.OkHttpHelper;
 import com.jlu.chengjie.zhihu.net.RequestCode;
 import com.jlu.chengjie.zhihu.net.ServerHelper;
+import com.jlu.chengjie.zhihu.util.PhoneNumUtil;
 import com.jlu.chengjie.zhihu.util.SPUtil;
 import com.jlu.chengjie.zhihu.util.TaskRunner;
 import com.vondear.rxui.view.dialog.RxDialogShapeLoading;
@@ -80,12 +81,12 @@ public class LoginActivity extends AppCompatActivity {
 
     private boolean isPwdLogin = false;
 
-    private String phoneNum = "";
-    private String verifyCode = "";
+    private Response<User> result;
 
     private RxDialogShapeLoading dialog;
     private CountDownTimer timer;
     private SPUtil spUtil;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,6 +114,9 @@ public class LoginActivity extends AppCompatActivity {
                 sender.setTextColor(Color.parseColor("#1296db"));
             }
         };
+
+        editTextPhone.setText(spUtil.getString(spUtil.KEY_PHONE, ""));
+        editTextCode.requestFocus();
     }
 
     @OnClick(R.id.ok)
@@ -125,7 +129,7 @@ public class LoginActivity extends AppCompatActivity {
         String sPhone = editTextPhone.getText().toString().trim();
         String sPwd = editTextCode.getText().toString();
 
-        if (!sPhone.matches("^1([34578])\\d{9}$")) {
+        if (!PhoneNumUtil.isPhoneNum(sPhone)) {
             Toasty.error(context, "请输入正确的电话号码", Toast.LENGTH_LONG, true).show();
             return;
         }
@@ -136,11 +140,9 @@ public class LoginActivity extends AppCompatActivity {
                 Toasty.error(context, "输入验证码", Toast.LENGTH_LONG, true).show();
                 return;
             }
-            if (verifyCode.equals(sPwd)) {
-                if (sPhone.equals(phoneNum))
-                    success(phoneNum);
-                else
-                    Toasty.error(context, "验证码与手机号码不匹配", Toast.LENGTH_LONG, true).show();
+            if (result != null && sPwd.equals(result.getNote())
+                    && result.getObject().getPhone().equals(sPhone)) {
+                success();
             } else {
                 Toasty.error(context, "验证码错误", Toast.LENGTH_LONG, true).show();
             }
@@ -150,28 +152,28 @@ public class LoginActivity extends AppCompatActivity {
     @OnClick(R.id.send)
     void sendVerificationCode() {
         String sPhone = editTextPhone.getText().toString().trim();
-        if (TextUtils.isEmpty(sPhone) || !sPhone.matches("^1([34578])\\d{9}$")) {
+        if (TextUtils.isEmpty(sPhone) || !PhoneNumUtil.isPhoneNum(sPhone)) {
             Toasty.error(context, "请输入正确的电话号码", Toast.LENGTH_LONG, true).show();
             return;
         }
 
         String url = ServerHelper.getUrlRegister(sPhone);
-        ZLog.d(TAG, "start to send verification code.");
         try {
             TaskRunner.execute(() -> {
                 Type type = new TypeToken<Response<User>>() {
                 }.getType();
+
+                ZLog.d(TAG, "start to send verification code.");
                 Response<User> response = OkHttpHelper.get(url, type);
                 runOnUiThread(() -> {
                     if (response != null) {
-                        ZLog.d(TAG, "login response code: %d, message: %s, code: %s",
+                        ZLog.d(TAG, "login response code: %d, message: %s, verification code: %s",
                                 response.getCode(), response.getMsg(), response.getNote());
                         switch (response.getCode()) {
                             case RequestCode.SUCCESS:
-                                verifyCode = response.getNote();
-                                editTextCode.setText(verifyCode);
-                                Toasty.success(context, "您的验证码是: " + verifyCode, Toast.LENGTH_LONG).show();
-                                phoneNum = response.getObject().getPhone();
+                                result = response;
+                                editTextCode.setText(response.getNote());
+                                Toasty.success(context, "您的验证码是: " + response.getNote(), Toast.LENGTH_LONG).show();
                                 break;
                             case RequestCode.SERVER_FATAL:
                                 Toasty.info(context, "服务器发生错误", Toast.LENGTH_LONG).show();
@@ -225,19 +227,20 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
         String url = ServerHelper.getUrlLogin(sPhone, sPwd);
-        ZLog.d(TAG, "start to login with password.");
         try {
             dialog.show();
             TaskRunner.execute(() -> {
                 Type type = new TypeToken<Response<User>>() {
                 }.getType();
+                ZLog.d(TAG, "start to login with password.");
                 Response<User> response = OkHttpHelper.get(url, type);
                 runOnUiThread(() -> {
                     if (response != null) {
                         ZLog.d(TAG, "login response code: %d, message: %s", response.getCode(), response.getMsg());
                         switch (response.getCode()) {
                             case RequestCode.SUCCESS:
-                                success(response.getObject().getPhone());
+                                result = response;
+                                success();
                                 break;
                             case RequestCode.NOT_FOUND:
                                 Toasty.info(context, "手机号码尚未注册，请切换到快捷登录以注册", Toast.LENGTH_LONG).show();
@@ -261,10 +264,15 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private void success(String phone) {
+    private void success() {
+        User user = result.getObject();
         startActivity(new Intent(context, MainActivity.class));
         // this activity will not be used again, finish it.
-        spUtil.putString(spUtil.KEY_PHONE, phone);
+        if (!spUtil.getString(spUtil.KEY_PHONE, "").equals(user.getPhone())) {
+            spUtil.clearAll();
+        }
+        spUtil.putString(spUtil.KEY_PHONE, user.getPhone());
+        spUtil.putString(spUtil.KEY_EMAIL, user.getEmail());
         ZLog.d(TAG, "login success! finish login activity.");
         finish();
     }
