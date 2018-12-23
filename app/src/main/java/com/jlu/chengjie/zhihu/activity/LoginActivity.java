@@ -273,6 +273,7 @@ public class LoginActivity extends AppCompatActivity {
         }
         spUtil.putString(spUtil.KEY_PHONE, user.getPhone());
         spUtil.putString(spUtil.KEY_EMAIL, user.getEmail());
+        spUtil.putString(spUtil.KEY_NAME, user.getName());
         ZLog.d(TAG, "login success! finish login activity.");
         finish();
     }

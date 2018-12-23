@@ -44,6 +44,8 @@ public class ServerHelper {
 
     private static final String URL_SET_PWD = SERVER_URL + "/user/pwd?phone=%s&pwd=%s";
 
+    private static final String URL_SET_NAME = SERVER_URL + "/user/name?phone=%s&name=%s";
+
     public static String getUrlLogin(String... args) {
         return String.format(URL_LOGIN, (Object[]) args);
     }
@@ -66,6 +68,10 @@ public class ServerHelper {
 
     public static String getUrlSetPwd(String phone, String pwd) {
         return String.format(URL_SET_PWD, phone, pwd);
+    }
+
+    public static String getUrlSetName(String phone, String name) {
+        return String.format(URL_SET_NAME, phone, name);
     }
 
 }

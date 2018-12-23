@@ -30,6 +30,7 @@ public class SPUtil {
 
     public final String KEY_PHONE = "phone";
     public final String KEY_EMAIL = "email";
+    public final String KEY_NAME = "name";
 
     private SharedPreferences preferences;
 

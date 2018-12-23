@@ -80,7 +80,7 @@
                         android:layout_width="80dp"
                         android:layout_height="80dp"/>
                 <TextView
-                        android:id="@+id/nick_name"
+                        android:id="@+id/name"
                         android:layout_marginTop="20dp"
                         android:layout_marginStart="10dp"
                         android:layout_marginBottom="7dp"
@@ -95,7 +95,7 @@
                         android:textSize="16sp"
                         android:layout_toEndOf="@id/avator"
                         android:layout_marginStart="10dp"
-                        android:layout_below="@id/nick_name"
+                        android:layout_below="@id/name"
                         android:text="分享身边的故事，发现更大的世界"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
@@ -252,6 +252,25 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
+                <RelativeLayout
+                        android:id="@+id/modify_name"
+                        android:padding="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                    <TextView
+                            android:textColor="@color/colorBlack"
+                            android:textSize="18sp"
+                            android:layout_marginStart="10dp"
+                            android:text="昵称"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+                    <TextView
+                            android:id="@+id/name_txt"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginEnd="10dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="20dp"/>
+                </RelativeLayout>
                 <RelativeLayout
                         android:padding="10dp"
                         android:layout_width="match_parent"

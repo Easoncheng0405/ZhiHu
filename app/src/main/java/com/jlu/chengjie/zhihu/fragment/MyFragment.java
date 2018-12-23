@@ -62,12 +62,19 @@ public class MyFragment extends Fragment {
     private Context context;
     private String phoneNum;
     private RxDialogEditSureCancel emailDialog;
+    private RxDialogEditSureCancel nameDialog;
 
     @BindView(R.id.phone_number)
     TextView textViewPhone;
 
     @BindView(R.id.email_txt)
     TextView textViewEmail;
+
+    @BindView(R.id.name)
+    TextView titleName;
+
+    @BindView(R.id.name_txt)
+    TextView textViewName;
 
     @Nullable
     @Override
@@ -77,8 +84,12 @@ public class MyFragment extends Fragment {
         context = this.getActivity();
         spUtil = new SPUtil(context);
         phoneNum = spUtil.getString(spUtil.KEY_PHONE);
+
         textViewPhone.setText(PhoneNumUtil.encryptPhone(phoneNum));
         textViewEmail.setText(spUtil.getString(spUtil.KEY_EMAIL));
+        String name = spUtil.getString(spUtil.KEY_NAME);
+        titleName.setText(name);
+        textViewName.setText(name);
 
         emailDialog = new RxDialogEditSureCancel(context);
         emailDialog.setTitle("输入邮箱地址");
@@ -87,6 +98,13 @@ public class MyFragment extends Fragment {
         emailDialog.getEditText().setHint("someone@example.com");
         emailDialog.getSureView().setOnClickListener(v -> setEmail());
         emailDialog.getCancelView().setOnClickListener(v -> emailDialog.cancel());
+
+        nameDialog = new RxDialogEditSureCancel(context);
+        nameDialog.setTitle("输入新昵称");
+        nameDialog.getTitleView().setTextColor(Color.BLACK);
+        nameDialog.getTitleView().setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
+        nameDialog.getSureView().setOnClickListener(v -> setName());
+        nameDialog.getCancelView().setOnClickListener(v -> nameDialog.cancel());
         return view;
     }
 
@@ -105,6 +123,11 @@ public class MyFragment extends Fragment {
         emailDialog.show();
     }
 
+    @OnClick(R.id.modify_name)
+    void clickName() {
+        nameDialog.show();
+    }
+
     private void setEmail() {
         final String email = emailDialog.getEditText().getText().toString().trim();
         if (!email.matches(Regex.EMAIL)) {
@@ -113,21 +136,52 @@ public class MyFragment extends Fragment {
         }
         emailDialog.cancel();
         textViewEmail.setText(email);
-        ZLog.d(TAG, "");
+        spUtil.putString(spUtil.KEY_EMAIL, email);
         TaskRunner.execute(() -> {
             String url = ServerHelper.getUrlSetEmail(phoneNum, email);
-            Type type = new TypeToken<Response<User>>() {
+            Type type = new TypeToken<Response<Void>>() {
             }.getType();
-            final Response<User> response = OkHttpHelper.get(url, type);
+            ZLog.d(TAG, "start to set email address.");
+            final Response<Void> response = OkHttpHelper.get(url, type);
             Objects.requireNonNull(getActivity()).runOnUiThread(() -> {
                 if (response == null) {
                     Toasty.error(context, "无法连接到服务器").show();
                 } else {
                     if (response.getCode() == RequestCode.SUCCESS) {
                         Toasty.success(context, "成功更新邮箱地址").show();
-                        spUtil.putString(spUtil.KEY_EMAIL, response.getObject().getEmail());
                     } else {
                         Toasty.error(context, "更新邮箱地址失败,code: " + response.getCode()).show();
+                    }
+                }
+            });
+
+        });
+    }
+
+    private void setName() {
+        final String name = nameDialog.getEditText().getText().toString().trim();
+        if (name.length() < 3 || name.length() > 10) {
+            Toasty.error(context, "昵称在3到10个字符之间").show();
+            return;
+        }
+        nameDialog.cancel();
+        titleName.setText(name);
+        textViewName.setText(name);
+        spUtil.putString(spUtil.KEY_NAME, name);
+        TaskRunner.execute(() -> {
+            String url = ServerHelper.getUrlSetName(phoneNum, name);
+            Type type = new TypeToken<Response<User>>() {
+            }.getType();
+            ZLog.d(TAG, "start to set user name.");
+            final Response<Void> response = OkHttpHelper.get(url, type);
+            Objects.requireNonNull(getActivity()).runOnUiThread(() -> {
+                if (response == null) {
+                    Toasty.error(context, "无法连接到服务器").show();
+                } else {
+                    if (response.getCode() == RequestCode.SUCCESS) {
+                        Toasty.success(context, "成功修改昵称").show();
+                    } else {
+                        Toasty.error(context, "更改昵称失败,code: " + response.getCode()).show();
                     }
                 }
                 textViewEmail.setText(spUtil.getString(spUtil.KEY_EMAIL));
