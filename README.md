@@ -1,6 +1,8 @@
 # ZhiHu
 仿知乎社区问答类App，吉林大学计算机科学与技术学院毕业设计
 
+后台服务端 https://github.com/Easoncheng0405/ZhiHu-Server
+
 ### 效果截图
 
 <table><tr>

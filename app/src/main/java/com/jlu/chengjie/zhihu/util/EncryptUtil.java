@@ -29,9 +29,11 @@ import java.nio.charset.StandardCharsets;
 
 public class EncryptUtil {
 
+    private EncryptUtil() {
+        throw new AssertionError("No com.jlu.chengjie.zhihu.util.EncryptUtil instances for you!");
+    }
+
     public static String base64(String str) {
        return Base64.encodeToString(str.getBytes(StandardCharsets.UTF_8), Base64.NO_WRAP);
     }
-
-
 }

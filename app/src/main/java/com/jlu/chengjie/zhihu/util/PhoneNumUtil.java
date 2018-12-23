@@ -24,6 +24,10 @@ package com.jlu.chengjie.zhihu.util;
 
 public class PhoneNumUtil {
 
+    private PhoneNumUtil() {
+        throw new AssertionError("No com.jlu.chengjie.zhihu.util.PhoneNumUtil instances for you!");
+    }
+
     public static boolean isPhoneNum(String phoneNum) {
         return phoneNum != null && phoneNum.matches(Regex.PHONE_NUM);
     }

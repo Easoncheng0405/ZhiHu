@@ -24,13 +24,7 @@ package com.jlu.chengjie.zhihu.net;
 
 public class ServerHelper {
 
-    private static final String HOST = "10.151.130.210";
-
-    private static final String PORT = "8080";
-
-    private static final String HTTP_METHOD = "http://";
-
-    private static final String SERVER_URL = HTTP_METHOD + HOST + ":" + PORT;
+    private static final String SERVER_URL = "http://www.zhihu-jlu.cn";
 
     private static final String URL_LOGIN = SERVER_URL + "/pwdLogin?phone=%s&pwd=%s";
 
