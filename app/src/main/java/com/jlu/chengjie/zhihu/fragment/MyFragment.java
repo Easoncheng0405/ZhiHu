@@ -22,7 +22,7 @@ package com.jlu.chengjie.zhihu.fragment;
  *@Email chengjie.jlu@qq.com
  */
 
-import android.content.Context;
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -40,6 +40,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import com.google.gson.reflect.TypeToken;
 import com.jlu.chengjie.zhihu.R;
+import com.jlu.chengjie.zhihu.activity.LoginActivity;
 import com.jlu.chengjie.zhihu.activity.ModifyPasswordActivity;
 import com.jlu.chengjie.zhihu.activity.PersonalActivity;
 import com.jlu.chengjie.zhihu.model.Response;
@@ -49,8 +50,10 @@ import com.jlu.chengjie.zhihu.net.RequestCode;
 import com.jlu.chengjie.zhihu.net.ServerHelper;
 import com.jlu.chengjie.zhihu.util.*;
 import com.vondear.rxui.view.dialog.RxDialogEditSureCancel;
+import com.vondear.rxui.view.dialog.RxDialogSureCancel;
 import es.dmoral.toasty.Toasty;
 
+import java.io.File;
 import java.lang.reflect.Type;
 import java.util.Objects;
 
@@ -59,7 +62,7 @@ public class MyFragment extends Fragment {
     private final String TAG = "MyFragment";
 
     private SPUtil spUtil;
-    private Context context;
+    private Activity context;
     private String phoneNum;
     private RxDialogEditSureCancel emailDialog;
     private RxDialogEditSureCancel nameDialog;
@@ -76,6 +79,9 @@ public class MyFragment extends Fragment {
     @BindView(R.id.name_txt)
     TextView textViewName;
 
+    @BindView(R.id.cache_size)
+    TextView textViewCache;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -90,6 +96,7 @@ public class MyFragment extends Fragment {
         String name = spUtil.getString(spUtil.KEY_NAME);
         titleName.setText(name);
         textViewName.setText(name);
+        textViewCache.setText(CacheUtil.getTotalCacheSize(context.getApplicationContext()));
 
         emailDialog = new RxDialogEditSureCancel(context);
         emailDialog.setTitle("输入邮箱地址");
@@ -126,6 +133,48 @@ public class MyFragment extends Fragment {
     @OnClick(R.id.modify_name)
     void clickName() {
         nameDialog.show();
+    }
+
+    @OnClick(R.id.logout)
+    void logout() {
+        RxDialogSureCancel dialog = new RxDialogSureCancel(context);
+        dialog.setTitle("确定要退出登录吗");
+        dialog.getTitleView().setTextColor(Color.BLACK);
+        dialog.getTitleView().setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
+        dialog.setCancelable(false);
+        dialog.getContentView().setText("退出登录将清空缓存的个人数据并且下次需要重新登录");
+        dialog.getSureView().setOnClickListener(v -> {
+            spUtil.clearAll();
+            startActivity(new Intent(context, LoginActivity.class));
+            context.finish();
+            dialog.dismiss();
+        });
+
+        dialog.getCancelView().setOnClickListener(v -> dialog.dismiss());
+
+        dialog.show();
+    }
+
+    @OnClick(R.id.clear_cache_view)
+    void clearCache() {
+        RxDialogSureCancel dialog = new RxDialogSureCancel(context);
+        dialog.setTitle("要清除应用缓存吗");
+        dialog.getTitleView().setTextColor(Color.BLACK);
+        dialog.getTitleView().setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
+        dialog.getContentView().setText("清除应用缓存可能导致下一次打开速度变慢并且消耗更多的流量(不会退出您的账号)");
+        dialog.getSureView().setOnClickListener(v -> {
+            File dir = context.getCacheDir();
+            if (dir != null && dir.delete()) {
+                Toasty.success(context, "已清空应用缓存").show();
+                CacheUtil.clearAllCache(context.getApplicationContext());
+                textViewCache.setText(CacheUtil.getTotalCacheSize(context.getApplicationContext()));
+            }
+            dialog.dismiss();
+        });
+
+        dialog.getCancelView().setOnClickListener(v -> dialog.dismiss());
+        dialog.setCancelable(false);
+        dialog.show();
     }
 
     private void setEmail() {
